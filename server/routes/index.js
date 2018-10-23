@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const Middlewares = require('../middlewares/index');
 const UserController = require('../controllers/userController');
 const questionRoute = require('./question');
 const answerRoute = require('./answer');
@@ -13,6 +14,7 @@ router.post('/login', UserController.login);
 
 router.post('/register', UserController.create);
 
+router.get('/profile', Middlewares.isLogin, UserController.getUserProfile);
 
 router.use('/question', questionRoute);
 

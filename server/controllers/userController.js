@@ -54,7 +54,10 @@ module.exports = {
             
             if (result) {
                 let token = Token.sign(result);
-                res.status(200).json({token});
+                res.status(200).json({
+                    token: token,
+                    id: result._id
+                });
             } else {
                 res.status(401).json({
                     message: 'invalid email or password'
