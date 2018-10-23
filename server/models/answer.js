@@ -12,9 +12,9 @@ var answerSchema = new Schema({
         required: true
     },
     upvote: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    downvote: [{type: Schema.Types.ObjectId, ref: 'User'}] 
+    downvote: [{type: Schema.Types.ObjectId, ref: 'User'}]
 }, {timestamps: true})
 
-var Question = mongoose.model('Question', questionSchema);
+var Answer = mongoose.model('Answer', answerSchema);
 
-module.exports = Question;
+module.exports = Answer;
