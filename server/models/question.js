@@ -10,6 +10,10 @@ var questionSchema = new Schema({
         type: String,
         required: true
     },
+    title: {
+        type: String,
+        required: true
+    },
     answer: [{type: Schema.Types.ObjectId, ref: 'Answer'}],
     upvote: [{type: Schema.Types.ObjectId, ref: 'User'}],
     downvote: [{type: Schema.Types.ObjectId, ref: 'User'}] 

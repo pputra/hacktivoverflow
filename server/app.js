@@ -13,7 +13,7 @@ var app = express();
 
 app.use(cors());
 
-//mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
 
 app.use(logger('dev'));
 app.use(express.json());
