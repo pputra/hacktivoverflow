@@ -1,8 +1,8 @@
 <template>
 <div class="home">
   <div class="row d-flex justify-content-center">
-    <!-- <Profile :isLogin="isLogin" @updateUserId="updateUserId" @updateArticle="fetchNewArticle" v-if="isLogin" :updateProfile="updateProfile"></Profile>
-    <router-view :userId="userId"></router-view> -->
+   
+    <router-view></router-view>
     <question  v-if="!this.$route.params.id"></question>
   </div>
 </div>

@@ -11,7 +11,15 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      children: [{
+        path: 'question/:id',
+        name: 'questionDetail',
+        component: () => import('./components/main-content-components/DetailQuestion.vue'),
+        props: true
+        
+        
+      }]
     },
     {
       path: '/about',

@@ -1,6 +1,7 @@
 <template>
 
    <div class="col-sm-8 d-flex flex-column align-items-center">
+     <button class="btn btn-success my-2 my-sm-0 ask"  v-if="isLogin" data-toggle="modal" data-target="#modal-create-question">ask away</button>
       <div class="card article-grid" style="width: 100%;" v-for="(question, index) in questions" :key="index">
         <div class="card-body">
           <h1 class="card-title"><b>{{question.title}}</b></h1>
@@ -9,10 +10,11 @@
                     </i></h6><br>
           <p class="card-text" style="text-align:left">{{question.content}}</p>
           <div v-if="isLogin" class="options">
-            <button type="submit" class="btn btn-outline-primary">See Answers</button>
+            <router-link :to="{path: `/question/${question._id}`}">see answers</router-link>
             <a @click="vote(question._id, 'upvote')"><i class="fas fa-arrow-up"></i></a>
-            <b>{{question.upvote.length - question.downvote.length}}</b>
+            <b>({{question.upvote.length}})</b>
             <a @click="vote(question._id, 'downvote')"><i class="fas fa-arrow-down"></i></a>
+            <b>({{question.downvote.length}})</b>
             <button type="submit" class="btn btn-outline-danger" v-if="question.user._id === userId" @click="removeQuestion(question._id)">Remove</button>
             <!-- <a class="card-link" @click="editArticle(article._id)" data-toggle="modal" data-target="#modal-comment-article"><i class="far fa-comment"></i></a>
             <a class="card-link" @click="editArticle(article._id)" data-toggle="modal" data-target="#modal-edit-article" v-if="article.author._id === userId"><i class="far fa-edit"></i></a>
@@ -22,7 +24,7 @@
       </div>
       
 
-
+      <create-question-modal></create-question-modal>
       <!-- <comment-modal :article-id="editedArticle" :userId="userId"></comment-modal>
       <edit-article-modal :articleId="editedArticle" @fetchNewArticle="fetchArticle"></edit-article-modal> -->
     </div>
@@ -33,12 +35,13 @@
 import CommentModal from './commentModal.vue'; */
 import { mapState } from 'vuex'
 import { mapActions } from 'vuex'
+import CreateQuestionModal from './CreateQuestionModal'
 
 export default {
     name: 'Question',
     components: {
       /* EditArticleModal, CommentModal */
-
+      CreateQuestionModal
     },
     props: [],
     data: function() {
@@ -55,7 +58,7 @@ export default {
     },
     methods: {
       ...mapActions([
-        'getQuestions'
+        'getQuestions', 
       ]),
 
       removeQuestion(id) {
@@ -98,7 +101,7 @@ export default {
     },
     created() {
       
-      
+      this.getQuestions();
      
     },
 };
@@ -132,5 +135,9 @@ export default {
 
     p {
       font-size: 30px;
+    }
+
+    .ask {
+      width: 100%;
     }
 </style>

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     isLogin: false,
     userId: undefined,
     questions: [],
+    question: {},
     answers: [],
     },
   mutations: {
@@ -23,6 +24,10 @@ export default new Vuex.Store({
     },
     getQuestions(state, payload) {
         state.questions = payload;
+    },
+    getQuestion(state, payload) {
+        console.log(payload);
+        state.question = payload;
     },
     getAnswers(state, payload) {
         state.answers = payload;
@@ -59,11 +64,11 @@ export default new Vuex.Store({
             url: `${baseUrl}/question`
         }).then((result) => {
             console.log(result.data);
-            state.commit('getQuestions', result.data);
+            state.commit('getQuestions', result.data.reverse());
         }).catch((err) => {
             console.log(err);
         });
-    }/* ,
+    },
     getAnswers(state, questionId) {
         axios({
             method: 'get',
@@ -72,10 +77,22 @@ export default new Vuex.Store({
                 'access-token': localStorage.getItem('access-token')
             }
         }).then((result) => {
-            
+            state.commit('getAnswers', result.data)
         }).catch((err) => {
-            
+            console.log(err);
         });
-    } */
+    },
+    getQuestion(state, questionId) {
+        console.log(questionId, 'WSBDWHJSBDAJD');
+        axios({
+            method: 'GET',
+            url: `${baseUrl}/question/${questionId}`
+        }).then((result) => {
+            console.log('NICEE');
+            state.commit('getQuestion', result.data);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
   }
 })
