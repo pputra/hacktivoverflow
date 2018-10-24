@@ -6,9 +6,11 @@ const AnswerController = require('../controllers/answerController');
 router.use(Middlewares.isLogin);
 router.post('/:id', AnswerController.create);
 router.delete('/:id', AnswerController.delete);
+router.put('/:id', AnswerController.update);
+router.get('/search/:id', AnswerController.findById);
 router.get('/:id', AnswerController.showAll);
 
-router.patch('/upvote/:id', AnswerController.upvote);
-router.patch('/downvote/:id', AnswerController.downvote);
+router.patch('/upvote', AnswerController.upvote);
+router.patch('/downvote', AnswerController.downvote);
 
 module.exports = router

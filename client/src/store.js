@@ -13,6 +13,7 @@ export default new Vuex.Store({
     questions: [],
     question: {},
     answers: [],
+    answer: {},
     },
   mutations: {
     updateLogin(state, payload) {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     getAnswers(state, payload) {
         state.answers = payload;
+    },
+    getAnswer(state, payload) {
+        state.answer = payload;
     }
   },
   actions: {
@@ -83,13 +87,29 @@ export default new Vuex.Store({
         });
     },
     getQuestion(state, questionId) {
-        console.log(questionId, 'WSBDWHJSBDAJD');
+     
         axios({
             method: 'GET',
             url: `${baseUrl}/question/${questionId}`
         }).then((result) => {
-            console.log('NICEE');
+            
             state.commit('getQuestion', result.data);
+        }).catch((err) => {
+            console.log(err);
+        });
+    },
+    getAnswer(state, questionId) {
+        console.log('pleaseeee');
+        axios({
+            method: 'GET',
+            url: `${baseUrl}/answer/search/${questionId}`,
+            headers: {
+                'access-token': localStorage.getItem('access-token')
+            },
+
+        }).then((result) => {
+           console.log('editedit');
+            state.commit('getAnswer', result.data);
         }).catch((err) => {
             console.log(err);
         });

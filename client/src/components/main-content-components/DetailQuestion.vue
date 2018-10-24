@@ -35,12 +35,19 @@
                         Date(answer.createdAt).getMonth() + 1}}-{{new Date(answer.createdAt).getFullYear()}}
                     </i></h6><br>
 
-                <!-- <div v-if="answer.user._id === userId">
-                    <a class="card-link" @click="removeComment(comment._id)"><i class="far fa-trash-alt"></i></a>
-                </div> -->
+                <div class="options">
+                    <a @click="voteAnswer(answer._id, 'upvote')"><i class="fas fa-arrow-up"></i></a>
+                    <b>({{answer.upvote.length}})</b>
+                    <a @click="voteAnswer(answer._id, 'downvote')"><i class="fas fa-arrow-down"></i></a>
+                    <b>({{answer.downvote.length}})</b>
+                    <button type="submit" class="btn btn-outline-danger" v-if="answer.user === userId">Remove</button>
+                    <button type="submit" class="btn btn-outline-success" v-if="answer.user === userId" data-toggle="modal" data-target="#modal-edit-answer" @click="getAnswer(answer._id)">Edit</button>
+
+                </div>
             </div>
         </div>
     <edit-question-modal :fetchQuestion="fetchQuestion"></edit-question-modal>
+    <edit-answer-modal></edit-answer-modal>
 </div>
 </template>
 
@@ -49,12 +56,13 @@
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 import EditQuestionModal from './EditQuestionModal';
+import EditAnswerModal from './EditAnswerModal';
 
 export default {
     name: 'DetailQuestion',
     props: [],
     components: {
-        EditQuestionModal
+        EditQuestionModal, EditAnswerModal
     },
     data() {
         return {
@@ -71,7 +79,7 @@ export default {
     },
     computed: {
         ...mapState([
-            'userId', 'answers'
+            'userId', 'answers', 'isLogin'
         ])
     },
     created() {
@@ -81,7 +89,7 @@ export default {
     },
     methods: {
         ...mapActions([
-            'getAnswers', 'getQuestion'
+            'getAnswers', 'getQuestion', 'getAnswer'
         ]),
 
         fetchQuestion: function() {
@@ -159,6 +167,27 @@ export default {
           console.log(err);
         });
       },
+
+      voteAnswer(id, voteType) {
+          console.log(voteType, 'fuckyou');
+        this.$server({
+          method: 'patch',
+          url: `/answer/${voteType}`,
+          data: {
+            id: id
+          },
+          headers: {
+            'access-token': localStorage.getItem('access-token')
+          }
+        }).then((result) => {
+          this.getAnswers(this.$route.params.id);
+        }).catch((err) => {
+            console.log(err);
+          alert('unable to vote your own post');
+        });
+
+
+      }
     },
     watch: {
         '$route.params.id'() {  
@@ -180,5 +209,9 @@ export default {
     .answer-grid {
         margin-top: 10%;
         height: 300px;
+    }
+
+    a:hover {
+        cursor: pointer;
     }
 </style>

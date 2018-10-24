@@ -52,9 +52,17 @@ module.exports = {
         });
     },
 
+    findById: (req, res) => {
+        Answer.findById(req.params.id).then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            res.status(401).json(err.message);
+        });
+    },
+
     upvote: (req, res) => {
-        Answer.findOne({_id: req.params.id}).then((answer) => {
-            if (question.user != req.decoded.id ) {
+        Answer.findOne({_id: req.body.id}).then((answer) => {
+            if (answer.user != req.decoded.id ) {
                 if (answer.upvote.indexOf(req.decoded.id) === -1) {
                     answer.update({
                         $push: {
@@ -87,8 +95,8 @@ module.exports = {
     },
 
     downvote: (req, res) => {
-        Answer.findOne({_id: req.params.id}).then((answer) => {
-            if (question.user != req.decoded.id ) {
+        Answer.findOne({_id: req.body.id}).then((answer) => {
+            if (answer.user != req.decoded.id ) {
                 if (answer.downvote.indexOf(req.decoded.id) === -1) {
                     answer.update({
                         $push: {

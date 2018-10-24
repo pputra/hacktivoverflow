@@ -10,15 +10,12 @@
                     </i></h6><br>
           <p class="card-text" style="text-align:left">{{question.content}}</p>
           <div v-if="isLogin" class="options">
-            <router-link :to="{path: `/question/${question._id}`}">see answers</router-link>
+            <router-link :to="{path: `/question/${question._id}`}">see details</router-link>
             <a @click="vote(question._id, 'upvote')"><i class="fas fa-arrow-up"></i></a>
             <b>({{question.upvote.length}})</b>
             <a @click="vote(question._id, 'downvote')"><i class="fas fa-arrow-down"></i></a>
             <b>({{question.downvote.length}})</b>
             <button type="submit" class="btn btn-outline-danger" v-if="question.user._id === userId" @click="removeQuestion(question._id)">Remove</button>
-            <!-- <a class="card-link" @click="editArticle(article._id)" data-toggle="modal" data-target="#modal-comment-article"><i class="far fa-comment"></i></a>
-            <a class="card-link" @click="editArticle(article._id)" data-toggle="modal" data-target="#modal-edit-article" v-if="article.author._id === userId"><i class="far fa-edit"></i></a>
-            <a class="card-link" @click="removeArticle(article._id)" v-if="article.author._id === userId"><i class="far fa-trash-alt"></i></a> -->
           </div>
         </div>
       </div>
