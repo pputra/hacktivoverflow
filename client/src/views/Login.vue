@@ -19,6 +19,8 @@
     <router-link to="/register">Register Here</router-link>
   </div>
   <button type="submit" class="btn btn-primary" @click="login">Login</button>
+  <br><br><br>
+  <div id="my-signin2"></div>
 </div>
 </template>
 
@@ -41,6 +43,12 @@ export default {
         ]),
     },
 
+    
+    mounted() {
+        
+        this.renderButton();
+    },
+
     methods: {
         ...mapActions([
             'updateLogin', 'updateUserId'
@@ -60,8 +68,36 @@ export default {
                 this.failLogin = true;
             });
         },
+         renderButton() {
+             console.log('masuk google');
+             gapi.signin2.render('my-signin2', {
+                 'scope': 'profile email',
+                 'width': 240,
+                 'height': 50,
+                 'longtitle': true,
+                 'theme': 'dark',
+                 'onsuccess': this.onSignIn,
+                 'onfailure': this.onFailure
+             });
+         },
+         onSignIn(googleUser) {
+             var id_token = googleUser.getAuthResponse().id_token;
+             this.$server({
+                 method: 'POST',
+                 url: `/signin/google`,
+                 data: {
+                     token: id_token
+                 }
+             }).then((result) => {
 
-        
+                localStorage.setItem('access-token', result.data.token);
+                this.updateLogin(true);
+                this.updateUserId(result.data.id);
+                this.$router.push('/');
+             }).catch((err) => {
+                 console.log(err);
+             });
+         }
     },
 };
 </script>

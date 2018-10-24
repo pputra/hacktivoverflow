@@ -12,6 +12,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/login', UserController.login);
 
+router.post('/signin/google', UserController.googleSignIn);
+
 router.post('/register', UserController.create);
 
 router.get('/profile', Middlewares.isLogin, UserController.getUserProfile);

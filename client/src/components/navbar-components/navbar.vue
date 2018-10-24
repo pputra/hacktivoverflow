@@ -54,9 +54,22 @@ export default {
 
     logOut() {
         localStorage.clear();
+
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          localStorage.clear();
+          this.updateLogin(false);
+          this.updateUserId(undefined);
+          this.updateLogin(false);
+        });
+
+
+
+        localStorage.clear();
         this.updateLogin(false);
         this.updateUserId(undefined);
         this.updateLogin(false);
+        
     }
 
   },

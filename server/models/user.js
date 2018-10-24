@@ -35,8 +35,10 @@ var userSchema = new Schema({
 }, {timestamps: true});
 
 userSchema.pre('validate', function(next) {
-    console.log('masuk');
-    if (this.password.split(' ').length > 1) {
+    
+    if (this.oauth) {
+        next()
+    } else if (this.password.split(' ').length > 1) {
         
         next(new Error('password can not contain a white space'));
         console.log('masuk');
@@ -44,6 +46,9 @@ userSchema.pre('validate', function(next) {
         console.log('aman');
         next();
     }
+
+
+    
 });
 
 userSchema.pre('save', function (next) {
