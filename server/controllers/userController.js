@@ -5,6 +5,7 @@ const axios = require('axios');
 const User = require('../models/user');
 const encryptPassword = require('../helpers/encryptPassword');
 const Token = require('../helpers/token');
+const sendEmail = require('../helpers/sendEmail');
 
 module.exports = {
     create: (req, res) => {
@@ -21,7 +22,7 @@ module.exports = {
         console.log(user);
         user.save()
             .then((newUser) => {
-                console.log(newUser);
+                sendEmail(newUser.email);
                 res.status(201).json({
                     message: 'ok'
                 })

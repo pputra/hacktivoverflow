@@ -61,6 +61,7 @@ export default {
           this.updateLogin(false);
           this.updateUserId(undefined);
           this.updateLogin(false);
+          this.$router.push('/');
         });
 
 
@@ -69,6 +70,7 @@ export default {
         this.updateLogin(false);
         this.updateUserId(undefined);
         this.updateLogin(false);
+        this.$router.push('/');
         
     }
 

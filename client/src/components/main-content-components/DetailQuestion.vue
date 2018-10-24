@@ -40,7 +40,6 @@
                     <b>({{answer.upvote.length}})</b>
                     <a @click="voteAnswer(answer._id, 'downvote')"><i class="fas fa-arrow-down"></i></a>
                     <b>({{answer.downvote.length}})</b>
-                    <button type="submit" class="btn btn-outline-danger" v-if="answer.user === userId">Remove</button>
                     <button type="submit" class="btn btn-outline-success" v-if="answer.user === userId" data-toggle="modal" data-target="#modal-edit-answer" @click="getAnswer(answer._id)">Edit</button>
 
                 </div>
@@ -169,7 +168,7 @@ export default {
       },
 
       voteAnswer(id, voteType) {
-          console.log(voteType, 'fuckyou');
+          
         this.$server({
           method: 'patch',
           url: `/answer/${voteType}`,

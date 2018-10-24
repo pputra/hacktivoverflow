@@ -62,7 +62,7 @@ export default new Vuex.Store({
     },
     
     getQuestions(state, payload) {
-        console.log(payload, 'ini payload');
+        
         axios({
             method: 'get',
             url: `${baseUrl}/question`
